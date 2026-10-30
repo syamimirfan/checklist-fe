@@ -1,0 +1,109 @@
+@import "tailwindcss";
+
+/*
+ * Class-based dark mode: `dark:` utilities apply whenever <html> has the `dark`
+ * class. The class is set by src/shared/hooks/useTheme.ts (and by a tiny inline
+ * script in index.html so the first paint is already the right theme).
+ */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+ * Museo Sans is a commercial font (exljbris/MyFonts) — it isn't bundled here.
+ * Drop the licensed .woff2 files into src/assets/fonts/ and point the `src`
+ * URLs below at them; until then the sans-serif fallbacks apply.
+ */
+@font-face {
+  font-family: "Museo Sans";
+  src: url("../../assets/fonts/MuseoSans-300.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Museo Sans";
+  src: url("../../assets/fonts/MuseoSans-500.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Museo Sans";
+  src: url("../../assets/fonts/MuseoSans-700.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/*
+ * Design tokens for the "Vibrant Tones" palette.
+ * These map to Tailwind utilities, e.g. bg-brand-violet, text-brand-fuchsia-dark.
+ * Keep this file and src/shared/styles/theme.ts in sync — theme.ts exposes the same
+ * values for use outside of class names (inline styles, charts, dummy data).
+ */
+@theme {
+  /* `-light` is the shade used for text/icons on dark surfaces (dark mode only). */
+  --color-brand-violet-soft: #ede9fe;
+  --color-brand-violet-light: #a78bfa;
+  --color-brand-violet: #8b5cf6;
+  --color-brand-violet-dark: #7c3aed;
+
+  --color-brand-purple-soft: #f3e8ff;
+  --color-brand-purple-light: #c084fc;
+  --color-brand-purple: #a855f7;
+  --color-brand-purple-dark: #9333ea;
+
+  --color-brand-fuchsia-soft: #fae8ff;
+  --color-brand-fuchsia-light: #e879f9;
+  --color-brand-fuchsia: #d946ef;
+  --color-brand-fuchsia-dark: #c026d3;
+
+  --color-brand-pink-soft: #fce7f3;
+  --color-brand-pink-light: #f472b6;
+  --color-brand-pink: #ec4899;
+  --color-brand-pink-dark: #db2777;
+
+  --color-brand-rose-soft: #ffe4e6;
+  --color-brand-rose-light: #fb7185;
+  --color-brand-rose: #f43f5e;
+  --color-brand-rose-dark: #e11d48;
+
+  --font-sans:
+    "Museo Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --text-base: 0.875rem;
+}
+
+@layer base {
+  html {
+    font-size: 16px;
+    /* Lets native UI (scrollbars, autofill, checkboxes) follow the theme. */
+    color-scheme: light;
+  }
+
+  html.dark {
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-neutral-50 text-neutral-900 text-base antialiased dark:bg-neutral-950 dark:text-neutral-50;
+  }
+}
+
+/*
+ * Smooth light <-> dark switch. useTheme adds `theme-transition` to <html> for
+ * a moment whenever the theme changes, so every color fades instead of snapping.
+ * It's only present during the switch, so normal hover/focus transitions and the
+ * first paint are untouched. Keep the duration in sync with TRANSITION_MS in
+ * src/shared/hooks/useTheme.ts. Skipped entirely for users who prefer reduced motion.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  html.theme-transition,
+  html.theme-transition *,
+  html.theme-transition *::before,
+  html.theme-transition *::after {
+    transition-property: background-color, border-color, color, fill, stroke,
+      box-shadow, outline-color, text-decoration-color !important;
+    transition-duration: 500ms !important;
+    transition-timing-function: ease-in-out !important;
+    transition-delay: 0s !important;
+  }
+}
