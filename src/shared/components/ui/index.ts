@@ -15,4 +15,5 @@ export { Icon } from './Icon';
 export { Modal } from './Modal';
 export { Select } from './Select';
 export { TagChip } from './TagChip';
+export { Toaster } from './Toaster';
 export { Tooltip } from './Tooltip';

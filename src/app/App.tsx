@@ -15,11 +15,14 @@ import {
   workspaceRoutePattern,
 } from "../shared/constants/routes";
 import { AppShell } from "./AppShell";
+import { ToastHost } from "./ToastHost";
 
 export function App() {
   return (
     // The one shared "are you sure?" popup; features ask for it with `useConfirm()`.
     <ConfirmProvider>
+      {/* The one shared notification stack; features fill it with `useApiErrorHandler()`. */}
+      <ToastHost />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LandingPage />} />

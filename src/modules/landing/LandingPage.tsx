@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { Button, Card } from "../../shared/components/ui";
 import { Footer, Header } from "../../shared/components/layout";
-import { dummyTestimonials } from "./dummyData";
 import {
   badgeSoftClasses,
   brandGradient,
@@ -10,23 +9,14 @@ import {
   toneClasses,
   cursorPointer,
 } from "../../shared/styles/theme";
-import {
-  checklistsThatKeepYourWholeTeamInSync,
-  inSync,
-  login,
-  nowWithSharedWorkspaces,
-  planLaunchesTrackRecurringWorkAndNeverLoseATaskInAChatThreadAgain,
-  readTheDocumentation,
-  signup,
-  wholeTeam,
-  landingFeatures,
-  trustedByTeamsByShip,
-  readyToGetOrganized,
-  createYourFreeAccount,
-  createYourWorkspace,
-} from "./constants/landingPage.const";
+import { defaultLandingContent } from "./constants/landingPage.const";
+import { useLandingPage } from "./hooks/useLandingPage";
 
 export function LandingPage() {
+  const landing = useLandingPage();
+  const { header, hero, features, testimonials, cta } =
+    landing.status === "success" ? landing.content : defaultLandingContent;
+
   return (
     <div className={`min-h-screen ${surface.page}`}>
       <Header>
@@ -36,7 +26,7 @@ export function LandingPage() {
             size="sm"
             className={`sm:h-11 sm:px-5 sm:text-sm ${cursorPointer}`}
           >
-            {login}
+            {header.loginLabel}
           </Button>
         </Link>
         <Link to="/signup">
@@ -45,32 +35,32 @@ export function LandingPage() {
             size="sm"
             className={`sm:h-11 sm:px-5 sm:text-sm ${cursorPointer}`}
           >
-            {signup}
+            {header.signupLabel}
           </Button>
         </Link>
       </Header>
       <main>
         <section className="mx-auto flex max-w-6xl flex-col items-center px-4 py-14 text-center sm:px-6 sm:py-20">
-          <span className={badgeSoftClasses}>{nowWithSharedWorkspaces}</span>
+          <span className={badgeSoftClasses}>{hero.badge}</span>
           <h1
             className={`mt-6 max-w-3xl text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl ${text.heading}`}
           >
-            {checklistsThatKeepYourWholeTeamInSync}{" "}
+            {hero.titlePrefix}{" "}
             <span
               className="bg-clip-text text-transparent"
               style={{ backgroundImage: brandGradient }}
             >
-              {wholeTeam}
+              {hero.titleHighlight}
             </span>{" "}
-            {inSync}
+            {hero.titleSuffix}
           </h1>
           <p className={`mt-6 max-w-xl text-base sm:text-lg ${text.body}`}>
-            {planLaunchesTrackRecurringWorkAndNeverLoseATaskInAChatThreadAgain}
+            {hero.description}
           </p>
           <div className="mt-8 flex w-full flex-col items-center gap-3 sm:w-auto sm:flex-row sm:gap-4">
             <Link to="/signup" className="w-full sm:w-auto">
               <Button size="lg" className={`w-full sm:w-auto ${cursorPointer}`}>
-                {readTheDocumentation}
+                {hero.ctaLabel}
               </Button>
             </Link>
           </div>
@@ -78,7 +68,7 @@ export function LandingPage() {
 
         <section className="mx-auto max-w-6xl px-4 pb-14 sm:px-6 sm:pb-20">
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {landingFeatures.map((feature) => (
+            {features.map((feature) => (
               <Card key={feature.id} className="text-left">
                 <span
                   className={`mb-4 inline-flex h-10 w-10 items-center justify-center rounded-lg text-sm font-semibold ${toneClasses[feature.tone].bg} ${toneClasses[feature.tone].text}`}
@@ -102,10 +92,10 @@ export function LandingPage() {
             <h2
               className={`text-center text-xl font-semibold sm:text-2xl ${text.heading}`}
             >
-              {trustedByTeamsByShip}
+              {testimonials.title}
             </h2>
             <div className="mt-10 grid gap-6 sm:grid-cols-3">
-              {dummyTestimonials.map((testimonial) => (
+              {testimonials.items.map((testimonial) => (
                 <Card key={testimonial.id}>
                   <p className={`text-sm ${text.body}`}>
                     &ldquo;{testimonial.quote}&rdquo;
@@ -122,12 +112,12 @@ export function LandingPage() {
 
         <section className="mx-auto max-w-6xl px-4 py-14 text-center sm:px-6 sm:py-20">
           <h2 className={`text-2xl font-bold sm:text-3xl ${text.heading}`}>
-            {readyToGetOrganized}
+            {cta.title}
           </h2>
-          <p className={`mt-3 ${text.body}`}>{createYourFreeAccount}</p>
+          <p className={`mt-3 ${text.body}`}>{cta.description}</p>
           <Link to="/signup" className="mt-6 inline-block w-full sm:w-auto">
             <Button size="lg" className={`w-full sm:w-auto ${cursorPointer}`}>
-              {createYourWorkspace}
+              {cta.buttonLabel}
             </Button>
           </Link>
         </section>
